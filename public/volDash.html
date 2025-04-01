@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VOLUNTEER DASHBOARD</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+  <style>
+    body {
+      background-color: #F5E1C6;
+      font-family: 'Arial', sans-serif;
+      animation: fadeIn 1s ease-in-out;
+    }
+    
+    .navbar {
+      background-color: #A67C52;
+      padding: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .navbar-brand {
+      color: white !important;
+      font-weight: bold;
+      font-size: 20px;
+      transition: color 0.3s ease-in-out;
+    }
+    
+    .navbar-brand:hover {
+      color: #ffeb3b !important;
+    }
+    
+    .btn-outline-success {
+      color: white;
+      border-color: white;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    .btn-outline-success:hover {
+      background-color: white;
+      color: #4682B4;
+    }
+    
+    .dashboard-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 50px;
+      animation: slideUp 1s ease-in-out;
+    }
+    
+    .card {
+      width: 270px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      border: none;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .card:hover {
+      transform: scale(1.07);
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card img {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+     
+      margin: 20px auto;
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    .card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .btn-warning {
+      font-weight: bold;
+      padding: 10px 15px;
+      transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    }
+    
+    .btn-warning:hover {
+      background-color: #ff9800;
+      transform: scale(1.05);
+    }
+    
+    /* Keyframe Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+  </style>
+
+  <script>
+    function logout() {
+      alert("Logout Successful");
+      window.location.href = "MainPage.html";
+  } 
+  function  init()
+  {
+      let activeUser=localStorage.getItem("activeUser");
+      document.getElementById("user").innerHTML=activeUser;
+
+  }
+  </script>
+
+  </head>
+  <body onload="init();">
+    <nav class="navbar navbar-expand-lg ">
+      <h6 style="color: white;">Welcome, <span id="user"></span></h6>    
+      <div class="container-fluid d-flex justify-content-center">
+        <h4 class="text-white fw-bold">Volunteer DASHBOARD</h4>
+      </div>
+    </nav>
+    
+    <div class="container dashboard-container">
+
+      <!-- Profile Card -->
+      <div class="card">
+        <img src="Pics Project/ProfilePic.webp" class="card-img-top" alt="Profile">
+        <div class="card-body">
+          <button type="button" class="btn btn-warning" onclick="window.location.href='VolKYC.html'"> VOLUNTEER PROFILE</button>
+        </div>
+      </div>
+
+      <!-- Find Work Card -->
+      <div class="card job-manager">
+        <img src="Pics Project/post job.png" class="card-img-top" alt="Job Manager">
+        <div class="card-body">
+          <button type="button" class="btn btn-warning" onclick="window.location.href='FindWork.html'">Find Work</button>
+        </div>
+      </div>
+
+      <!-- Logout Card -->
+      <div class="card">
+        <img src="Pics Project/logout.png" class="card-img-top" alt="Logout">
+        <div class="card-body">
+          <button type="button" class="btn btn-warning" onclick="logout()">LOGOUT</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

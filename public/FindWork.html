@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+
+    <script>
+        let mymodule=angular.module("MyModule",[]);
+        let myController=mymodule.controller("MyController",function($scope, $http) {
+
+            $scope.jsonCities = []; 
+            $scope.jsonTitles = []; 
+
+            // City
+            $scope.dofetchallcity=function(){
+                let url="/all-records-client-city";
+                $http.get(url).then(fxSuccess,fxFail);
+
+                function fxSuccess(response){
+                    $scope.jsonCities=response.data;
+                }
+                function fxFail(err){
+                    alert(err.data);
+                }
+            }
+            // Title
+            $scope.dofetchalltitle=function(){
+                let url="/all-records-job-title";
+                $http.get(url).then(fxSuccess,fxFail);
+                function fxSuccess(response){
+                    $scope.jsonTitles=response.data;
+                }
+                function fxFail(err){
+                    alert(err.data);
+                }
+            }
+            
+            // All Records
+            $scope.jsonAryJob=[];
+            $scope.makeJobList=function(){
+                if (!$scope.scity || !$scope.stitle || !$scope.edu) {
+                    alert("Please select all fields.");
+                    return;
+                }
+
+                let url = "/all-related-job?city=" + encodeURIComponent($scope.scity) + 
+               "&jobtitle=" + encodeURIComponent($scope.stitle) + 
+              "&edu=" + encodeURIComponent($scope.edu);
+
+                $http.get(url).then(fxSuccess,fxFail);
+                function fxSuccess(response){
+                    alert(JSON.stringify(response.data));
+                    $scope.jsonAryJob=response.data;
+                }
+                function fxFail(err){
+                    alert(err.data);
+                }
+            }
+        })
+    </script>
+
+    <style>
+body{
+    background-color: #F9EEDC;
+}
+    </style>
+
+</head>
+<body ng-app="MyModule" ng-controller="MyController" ng-init="dofetchallcity(); dofetchalltitle();" onload="init();" >
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-12 fw-bolder text-white text-center fs-3 bg-danger">
+                    <i>Find Work</i>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+
+                <!-- Form Inputs -->
+                <div class="col-md-3 mt-5 mb-5" style="margin-left: 15px;">
+                    <div class="row-mb-4">
+                        <label for="" style="margin-left:5px; margin-bottom:9px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;City</label><br>
+                        <select ng-model="scity" style="width:150px; margin-left:20px;">
+                            <option value="">select</option>
+                            <option ng-repeat="obj in jsonCities" value="{{obj.City}}">{{obj.City}}</option>
+                        </select>
+                    </div><br>
+                    <div class="row-mb-4 mt-3">
+                        <label for="" style="margin-left:5px; margin-bottom:9px;">&nbsp;&nbsp;&nbsp;Job Title</label><br>
+                        <select ng-model="stitle" style="width:150px; margin-left:20px;">
+                            <option value="">select</option>
+                            <option ng-repeat="obj in jsonTitles" value="{{obj.JobTitle}}">{{obj.JobTitle}}</option>
+                        </select>
+                    </div><br>
+
+                    <div class="row-mb-4">
+                        <label for="" style="margin-left:5px; margin-bottom:9px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Education Required</label><br>
+                        <label for=""><input  style="margin-left:20px;" type="radio" ng-model="edu" value="Yes">yes</label>
+                        <label for=""><input style="margin-left:20px;" type="radio" ng-model="edu" value="No">no</label>
+                    </div><br>
+                    
+                    <div class="row-mb-4">
+                        <a href="#" class="btn btn-danger" ng-click="makeJobList();" style="width: 150px; margin-left:10px;">Find Job</a>
+                    </div>
+                </div>
+
+                <div class="col-md-7 offset-md-1">
+                    <table class="table table-striped">
+                        <tr>
+                            <th colspan="5" style="background-color: #F5E1C6; font-size: large;"><center> Related Job Details</center>
+                            </Related></th>
+                        </tr>
+                        <tr>
+                            <th>Job ID</th>
+                            <th>Job Title</th>
+                            <th>Job Type</th>
+                            <th>Address</th>
+                            <th>Contact</th>
+                        </tr>
+                        <tr ng-repeat="obj in jsonAryJob">
+                            <td>{{obj.JobID}}</td>
+                            <td>{{obj.JobTitle}}</td>
+                            <td>{{obj.JobType}}</td>
+                            <td>{{obj.FirmAddress}}</td>
+                            <td>{{obj.ContactPerson}}</td>
+                        </tr>
+                    </table>
+                </div>  
+            </div>    
+        </form>
+    </div>
+</body>
+</html>
